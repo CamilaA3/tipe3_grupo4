@@ -1,0 +1,237 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+body{
+    background: #74ebd5; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #74ebd5, #acb6e5); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #74ebd5, #acb6e5);
+    overflow-x: hidden;
+}
+header{
+    position: relative;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 180px;
+    z-index: 10;
+}
+.Logo_UV img{
+    width: 200px;
+    height: 100px;
+}
+.Logo_MSA img{
+    width: 100px;
+    height: 100px;
+}
+h1{font-size: 1.5em;}
+/*cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc*/
+.display-case{
+    border: 0.2em solid white;
+    justify-content: space-around;
+    margin: 1em 1em 1em 1em;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.displaycase-header{
+    text-align: center;
+    background-color: white;
+    margin-bottom: 1em;
+}
+
+#featured-box{
+    height: 28em;
+    width: 30em;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+#featured-image img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    height: auto;
+    max-width: 29em;
+    max-height: 25em;
+}
+/*ggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg*/
+#faq-box{
+    height: 28em;
+    width: 30em;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+}
+#faq-box button{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.5em;
+    margin-top: 20px;
+    width: 95%;
+    border: none;
+    border-bottom: 2px solid #acb6e5;
+}
+/*colcolcolcolcolcolcolcolcolcolcolcolcolcolcolcolcolcolcolcolcolcol*/
+#left{
+    float:left;
+}
+#right{
+    float: none;
+    display: flex;
+    flex-wrap: wrap;
+    overflow:hidden;
+}
+#search-options{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+#category{
+    height: 50px;
+    line-height: 65px;
+}
+.dropdown button{
+    border-radius: 5px;
+    background: #ffffff;
+}
+#search{
+    margin: 1em 1em 1em 1em;
+    height: 2em;
+    margin-right: 150px;
+    max-width: 450px;
+}
+#search #contentSearch{
+    background: #ffffff;
+    width: 100%;
+    border-radius: 5px;
+    position: relative;
+    z-index: 100;
+}
+#contentSearch input{
+    height: 40px;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0 60px 0 20px;
+    font-size: 18px;
+} 
+#contentSearch #iconSearch{
+    height: 40px;
+    width: 55px;
+    line-height: 40px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: center;
+    font-size: 20px;
+    color: #000000;
+}
+#contentSearch #suggestions{
+    padding: 0px;
+    max-height: 280px;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#contentSearch.active #suggestions{
+    padding: 10px 8px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#suggestions li{
+    list-style: none;
+    padding: 0px 12px;
+    width: 100%;
+    border-radius: 5px;
+    display: none;
+}
+
+#contentSearch.active #suggestions li{
+    display: block;
+}
+
+#suggestions li:hover{
+    background: #efefef;
+}
+
+#products{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+}
+
+.hiddenElements{
+    visibility: hidden;
+}
+
+.col-search input{
+    margin-right: 20px;
+    margin-left: 100px;
+}
+
+
+/*Start-Products*/
+section .row{
+    justify-content: center;
+    align-content: center;
+}
+.col-box{
+    text-align: center;
+    margin: 20px 0px;
+    max-width: 270px;
+}
+.col-box img{
+    width: 250px;
+    height: 250px;
+}
+.col-box .desc-product{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: .5s ease;
+}
+.col-box:hover .desc-product{
+    width: 250px;
+    margin-left: 20px;
+    justify-items: center;
+    align-items: center;
+}
+.col-box .title-product{
+    background: #ffffff;
+    width: 250px;
+}
+
+footer{
+    margin-top: 40px;
+    background:#ffffff;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+footer .Logo_UV{
+    width: 200px;
+    height: 100px;
+}
+footer .Logo_MSA{
+    width: 100px;
+    height: 100px;
+    flex: 1;
+}

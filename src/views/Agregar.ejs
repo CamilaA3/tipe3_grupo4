@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<title>Pagina Administrador</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
+
+<div class="w3-sidebar w3-collapse w3-white w3-animate-left w3-large" style="z-index:3;width:300px;" id="mySidebar">
+
+<div class="w3-bar w3-black w3-center">
+  <a class="w3-bar-item w3-button" style="width:33.33%" href="javascript:void(0)" onclick="openNav('nav01')">
+  <i class="fa fa-bars w3-xlarge"></i></a>
+
+</div>
+
+<div class="w3-bar-block">
+  <a class="w3-button w3-hover-teal w3-hide-large w3-large w3-right" href="javascript:void(0)" onclick="w3_close()">×</a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/logout">Cerrar sesion</a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/admin">Administrador, Mostrado de Datos y solicitudes de modificación y eliminación</a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/">Pagina Principal</a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/Agregar">Agregar Administrador o categoría</a>
+</div>
+</div>
+
+
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" id="myOverlay"></div>
+
+<div class="w3-main" style="margin-left:300px;"> 
+
+<div class="w3-top w3-theme w3-large w3-hide-large">
+  <i class="fa fa-bars w3-button w3-teal w3-xlarge" onclick="w3_open()"></i>
+</div>
+<!-- header  -->
+
+<header class="w3-container w3-blue w3-padding-32 w3-center">
+  <a href="/"><h1 class="w3-xxxlarge w3-padding-16 w3-black" >Página de administración de emprendimientos de San Antonio </h1></a>
+</header>
+
+<div class=' w3-striped'>
+  <h2 class="w3-section">Instrucciones: </h2>
+  <p>1.- En esta Página de administración la gente administrativa puede aceptar o rechazar solicitudes de gente emprendedora y productos</p>
+  <p>2.- La gente administrativa puede ver todos los datos de las bases de datos existentes, puede modificar y eliminar los datos a su gusto</p>
+  <p>3.- La gente administrativa en la seccion "Agregar" podra agregar categorias y administradores  </p>
+  <p>4.- La gente administrativa en la seccion "Preguntas frecuentes administrador" podra descargar un PDF que contiene las preguntas mas generales que se puede hacer un administrador (Version Entrega 2)</p>
+  <p>5.- En la sección "Analytics" podras ver algunos graficos generales sobre el visitado de pagina entre otras cosas (Version entrega 2) </p>
+</div>
+
+<div class="w3-container w3-padding w3-section w3-light-green w3-center ">
+  <h1 class="w3-xlarge">Agregar Categoria</h1>
+</div>
+
+<div class="w3-container w3-padding w3-section w3-light-gray w3-center ">
+
+  <form action="/AgregarCategoria" onsubmit="return confirmation()"  method="POST" class="card-body">
+    
+      <input type="text" name="nombre_cate" placeholder="Nombre de la categoria">
+    <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Agregar" ></input>
+</form> 
+</div>
+
+<%if(estadoCategoria==1){%>
+  <div class="w3-panel w3-red">
+    <h3>Error!!</h3>
+    <p>Su categoria no fue agregada porque es un campo vacio intente nuevamente</p>
+  </div>
+  <%}%>
+
+  <%if(estadoCategoria==2){%>
+    <div class="w3-panel w3-yellow">
+      <h3>Error!!</h3>
+      <p>La categoria ya esta dentro de la base de datos intente otro por favor</p>
+    </div>
+    <%}%>
+
+<div class="w3-container w3-padding w3-section w3-light-green w3-center ">
+  <h1 class="w3-xlarge">Agregar Administrador</h1>
+</div>
+<h2 class="w3-section">Para agregar un administrador recuerde que la cuenta debe existir, es por eso que le mostramos a continuación las cuentas</h2>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-black">
+          <th>Nombre del usuario</th>
+          <th>Correo</th>
+          <th>Password</th>
+          <th>rol</th>
+          <th>Cambiar</th>
+      </tr>
+      <% for(var i = 0; i < datos3.length; i++){ %>
+         <tr class="w3-striped">
+           <td><%=datos3[i].nombre_usuario%></td>
+           <td><%=datos3[i].correo%></td>
+           <td><%=datos3[i].password%></td>
+           <td><%=datos3[i].rol%></td>
+           <td> 
+            <%if(datos3[i].rol=='emprendedor'){%> 
+            <form action="/modificarEmprendedor/<%=datos3[i].nombre_usuario%>" onsubmit="return confirmation()"  method="POST" class="card-body">
+            <input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Cambiar" ></input>
+            </form>
+            <% }else{ %>
+              <form action="/modificarAdministrador/<%=datos3[i].nombre_usuario%>" onsubmit="return confirmation()"  method="POST" class="card-body">
+                <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Cambiar" ></input>
+                </form>
+              <% } %>
+          </td>
+         </tr> 
+      <% } %>
+  </table>
+  </div>
+  <h2 class="w3-section">Tambien le mostramos la lista de los administradores presentes para evitar errores</h2>
+  <div style="overflow-x:auto;">
+    <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+        <tr class="w3-black">
+            <th>Nombre del usuario</th>
+            <th>Correo</th>
+            <th>Nombre del adminsitrador</th>
+            <th>Apellido del administrador</th>
+            <th>RUT del administrador</th>
+        </tr>
+        <% for(var i = 0; i < datos6.length; i++){ %>
+           <tr class="w3-striped">
+             <td><%=datos6[i].nombre_usuario%></td>
+             <td><%=datos6[i].correo%></td>
+             <td><%=datos6[i].nombre_admin%></td>
+             <td><%=datos6[i].apellido_admin%></td>
+             <td><%=datos6[i].rut%></td>
+           </tr> 
+        <% } %>
+    </table>
+    </div>
+<div class="w3-container w3-padding w3-section w3-light-gray w3-center ">
+<form action="/AgregarAdministrador" onsubmit="return confirmation()"  method="POST" class="card-body">
+  <input type="text" name="nombre_usuario" placeholder="Nombre de la cuenta">
+ 
+  <input type="text" name="correo" placeholder="Correo de la cuenta">
+
+  <input type="text" name="nombre_admin" placeholder="Nombre de la persona">
+ 
+  <input type="text" name="apellido_admin" placeholder="Apellido de la persona">
+
+  <input type="text" name="rut" placeholder="Rut de la persona">
+
+  <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Agregar" ></input>
+</form>
+</div>
+
+<%if(estadoAdministrador==1 || estadoAdministrador==2 || estadoAdministrador==3 || estadoAdministrador==4 || estadoAdministrador==5){%>
+  <div class="w3-panel w3-red">
+    <h3>Error!!</h3>
+    <p>Su administrador no fue agregado porque tiene campos vacios, ingreselo nuevamente </p>
+  </div>
+  <%}%>
+
+  <%if(estadoAdministrador==6){%>
+    <div class="w3-panel w3-yellow">
+      <h3>Error!!</h3>
+      <p>Los campos de nombre de usuario y el correo no existen dentro del nombre de usuario, intente nuevamente</p>
+    </div>
+    <%}%>
+
+    <%if(estadoAdministrador==7){%>
+      <div class="w3-panel w3-green">
+        <h3>Felicidades</h3>
+        <p>Su usuario fue ingresado correctamente</p>
+      </div>
+      <%}%>
+
+
+    </div>
+    
+  
+
+
+
+    
+
+
+
+<script type="text/javascript">
+      function confirmation() 
+      {
+         if(confirm("¿Desea confirmar esta acción?"))
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+      }
+     </script>
+
+<script>
+
+ // Accordion 
+function myAccFunc() {
+      var x = document.getElementById("demoAcc");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else {
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+  
+    
+    // Click on the "Jeans" link on page load to open the accordion for demo purposes
+document.getElementById("myBtn").click();
+
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+openNav("nav01");
+function openNav(id) {
+  document.getElementById("nav01").style.display = "none";
+  document.getElementById("nav02").style.display = "none";
+  document.getElementById("nav03").style.display = "none";
+  document.getElementById(id).style.display = "block";
+}
+
+</script>
+
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+
+<script>
+w3CodeColor();
+</script>
+
+</body>
+</html> 

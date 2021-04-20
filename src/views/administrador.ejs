@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+<title>Pagina Administrador</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
+
+<div class="w3-sidebar w3-collapse w3-white w3-animate-left w3-large" style="z-index:3;width:300px;" id="mySidebar">
+
+<div class="w3-bar w3-black w3-center">
+  <a class="w3-bar-item w3-button" style="width:33.33%" href="javascript:void(0)" onclick="openNav('nav01')">
+  <i class="fa fa-bars w3-xlarge"></i></a>
+
+</div>
+
+<div class="w3-bar-block">
+  <a class="w3-button w3-hover-teal w3-hide-large w3-large w3-right" href="javascript:void(0)" onclick="w3_close()">×</a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/logout">Cerrar sesion</a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/admin">Administrador, Mostrado de Datos y solicitudes de modificación y eliminación</a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/">Pagina Principal</a>
+  <a class="w3-bar-item w3-button w3-border-bottom w3-large" href="/Agregar">Agregar Administrador o categoría</a>
+</div>
+</div>
+
+
+<div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" id="myOverlay"></div>
+
+<div class="w3-main" style="margin-left:300px;"> 
+
+<div class="w3-top w3-theme w3-large w3-hide-large">
+  <i class="fa fa-bars w3-button w3-teal w3-xlarge" onclick="w3_open()"></i>
+</div>
+<!-- header  -->
+
+<header class="w3-container w3-blue w3-padding-32 w3-center">
+  <a href="/"><h1 class="w3-xxxlarge w3-padding-16 w3-black" >Página de administración de emprendimientos de San Antonio </h1></a>
+</header>
+
+<div class=' w3-striped'>
+  <h2 class="w3-section">Instrucciones: </h2>
+  <p>1.- En esta Página de administración la gente administrativa puede aceptar o rechazar solicitudes de gente emprendedora y productos</p>
+  <p>2.- La gente administrativa puede ver todos los datos de las bases de datos existentes, puede modificar y eliminar los datos a su gusto</p>
+  <p>3.- La gente administrativa en la seccion "Agregar" podra agregar categorias y administradores  </p>
+  <p>4.- La gente administrativa en la seccion "Preguntas frecuentes administrador" podra descargar un PDF que contiene las preguntas mas generales que se puede hacer un administrador (Version Entrega 2)</p>
+  <p>5.- En la sección "Analytics" podras ver algunos graficos generales sobre el visitado de pagina entre otras cosas (Version entrega 2) </p>
+</div>
+
+<div class="w3-container w3-padding w3-section w3-light-green w3-center ">
+  <h1 class="w3-xlarge">Solicitudes de emprendimiento</h1>
+</div>
+
+      <div style="overflow-x:auto;">
+      <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+          <tr class="w3-black">
+              <th>Nombre del usuario</th>
+              <th>Correo</th>
+              <th>Nombre del emprendedor</th>
+              <th>Nombre del emprendimiento</th>
+              <th>Direccion</th>
+              <th>Horario_atencion</th>
+              <th>Logo</th>
+              <th>Descipcion</th>
+              <th>Latitud</th>
+              <th>Longitud</th>
+              <th>Rechazar</th>
+              <th>Aceptar</th>
+          </tr>
+          <% for(var i = 0; i < datos.length; i++){ %>
+            <%if(datos[i].activo==0){%>
+             <tr class="w3-striped">
+                 <td><%= datos[i].nombre_usuario %> <% i %></td>
+                 <td><%= datos[i].correo %></td>
+                 <td><%= datos[i].nombre_emprendedor %></td>
+                 <td><%= datos[i].nombre_emprendimiento %></td>
+                 <td><%= datos[i].dirección %></td>
+                 <td><%= datos[i].horario_atencion %></td>
+                 <td><img style="max-width:60%;max-height:60px" src= "img/<%=datos[i].logo%>" ></td>
+                 <td><%= datos[i].descripcion %></td>
+                 <td><%= datos[i].latitud %></td>
+                 <td><%= datos[i].longitud %></td>
+                 <td>
+                  <form action="/eliminar/<%=datos[i].nombre_usuario%>" onsubmit="return confirmation()"  method="get" class="card-body">
+                    <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="Rechazar" ></input>
+                </form> 
+                </td>
+                <td>
+                  <form action="/modificar/<%=datos[i].nombre_usuario%>" onsubmit="return confirmation()"  method="POST" class="card-body">
+                  <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Aceptar" ></input>
+                  </form>
+                </td>
+             </tr> 
+             <% } %>
+          <% } %>
+      </table>
+      </div>
+
+  
+ 
+    <div class="w3-container w3-padding w3-section w3-light-green w3-center">
+      <h1 class="w3-xlarge">Solicitudes de productos</h1>
+    </div>
+  
+
+    <div style="overflow-x:auto;">
+    <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+        <tr class="w3-black">
+            <th>nombre del usuario</th>
+            <th>Precio</th>
+            <th>Nombre del producto</th>
+            <th>imagen</th>
+            <th>fecha de publicacion</th>
+            <th>ID de Categoria</th>
+            <th>descripcion del producto</th>
+            <th>Rechazar</th>
+            <th>Aceptar</th>
+        </tr>
+        <% for(var i = 0; i < datos1.length; i++){ %>
+          <%if(datos1[i].activo==0){%>
+           <tr class="w3-striped">
+               <td><%= datos1[i].nombre_usuario %> <% i %></td>
+               <td><%= datos1[i].precio %></td>
+               <td><%= datos1[i].nombre_producto %></td>
+               <td><img style="max-width:60%;max-height:60px" src= "img/<%=datos1[i].imagen%>" ></td>
+               <td><%= datos1[i].fecha_publicacion %></td>
+               <td><%= datos1[i].id_cate %></td>
+               <td><%= datos1[i].descripcion_produc %></td>
+               <td>
+                <form action="/eliminar1/<%=datos1[i].id_producto%>"  method="get" onsubmit="return confirmation()" class="card-body">
+                  <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="Rechazar" ></input>
+              </form> 
+              </td>
+              <td>
+                <form action="/modificar1/<%=datos1[i].id_producto%>" onsubmit="return confirmation()" method="POST" class="card-body">
+                <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Aceptar" ></input>
+                </form>
+              </td>
+           </tr> 
+           <% } %>
+        <% } %>
+    </table>
+</div>
+
+<div class="w3-container w3-padding w3-section w3-light-green w3-center">
+  <h1 class="w3-xlarge">Solicitudes de contacto</h1>
+</div>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-black">
+          <th>Contacto</th>
+          <th>Nombre de usuario</th>
+          <th>Tipo de contacto</th>
+          <th>Aceptar</th>
+          <th>Rechazar</th>
+      </tr>
+      <% for(var i = 0; i < datos2.length; i++){ %>
+        <%if(datos2[i].activo==0){%>
+         <tr class="w3-striped">
+          <form action="/modificar2/<%=datos2[i].nombre_usuario%>"  method="POST" onsubmit="return confirmation()" class="card-body">
+          <td> <%= datos2[i].contacto %></td>
+             <td><%= datos2[i].nombre_usuario %></td>
+             <td> <%= datos2[i].tipo_contacto %></td>
+             <td>
+                <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Aceptar" ></input>
+            </form> 
+            </td>
+            <td>
+              <form action="/eliminar3/<%=datos2[i].nombre_usuario%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="Rechazar" ></input>
+              </form>
+            </td>
+         </tr> 
+      <% } %>
+      <% } %>
+  </table>
+  </div>
+
+  
+<div class=' w3-striped'>
+  <h2 class="w3-section">A continuación se muestran todos los datos de los emprendimientos, si necesita cambiar o eliminar algo, sea cuidadoso. </h2>
+</div>
+
+
+<div class="w3-container w3-padding w3-section w3-light-blue w3-center">
+  <h1 class="w3-xlarge">Cuentas</h1>
+</div>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-black">
+          <th>Nombre del usuario</th>
+          <th>Correo</th>
+          <th>Password</th>
+          <th>Modificar</th>
+          <th>Eliminar</th>
+      </tr>
+      <% for(var i = 0; i < datos3.length; i++){ %>
+         <tr class="w3-striped">
+            <form action="/modificarCuentas/<%=datos3[i].nombre_usuario%>" onsubmit="return confirmation()"  method="POST" class="card-body">
+             <td>
+             <div class="input-group ">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="nombre_usuario" type="text" class="form-control" value="<%= datos3[i].nombre_usuario %>" name="nombre_usuario">
+            </div>
+          </td>
+          <td>
+            <div class="input-group ">
+             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+             <input id="correo" type="text" class="form-control" value="<%= datos3[i].correo %>" name="correo">
+           </div>
+         </td>
+         <td>
+          <div class="input-group ">
+           <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+           <input id="password" type="text" class="form-control" value="<%= datos3[i].password %>" name="password">
+         </div>
+       </td>
+             <td><input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Modificar" ></input> </td>
+            </form>
+            <td>
+                  <form action="/eliminar2/<%=datos3[i].nombre_usuario%>"  method="get" onsubmit="return confirmation()" class="card-body">
+                    <button type="submit" class="btn btn-danger" onclick="confirmar_envio()">Eliminar</button>
+                  </form>
+                  
+               
+            </td>
+         </tr> 
+      <% } %>
+  </table>
+  </div>
+
+
+<div class="w3-container w3-padding w3-section w3-light-blue w3-center">
+  <h1 class="w3-xlarge">Administradores</h1>
+</div>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-black">
+          <th>Nombre del usuario</th>
+          <th>Correo</th>
+          <th>Nombre del administrador</th>
+          <th>Apellido del administrador</th>
+          <th>RUT de administrador</th>
+          <th>Modificar</th>
+      </tr>
+      <% for(var i = 0; i < datos6.length; i++){ %>
+         <tr class="w3-striped">
+             <form action="/modificarAdministrador/<%=datos6[i].nombre_usuario%>" onsubmit="return confirmation()"  method="POST" class="card-body">
+              <td><%=datos6[i].nombre_usuario%></td>
+           <td><%= datos6[i].correo %></td>
+          <td>
+           <div class="input-group ">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input id="nombre_admin" type="text" class="form-control" value="<%= datos6[i].nombre_admin %>" name="nombre_admin">
+          </div>
+        </td>
+        <td>
+          <div class="input-group ">
+           <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+           <input id="apellido_admin" type="text" class="form-control" value="<%= datos6[i].apellido_admin %>" name="apellido_admin">
+         </div>
+       </td>
+       <td>
+        <div class="input-group ">
+         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+         <input id="rut" type="text" class="form-control" value="<%= datos6[i].rut %>" name="rut">
+       </div>
+     </td>
+              <td><input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Modificar" ></input> </td>
+             </form>
+            
+         </tr> 
+      <% } %>
+  </table>
+  </div>
+
+<div class="w3-container w3-padding w3-section w3-light-blue w3-center">
+  <h1 class="w3-xlarge">Emprendedores</h1>
+</div>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered w3-xlarge'>
+   
+      <tr class="w3-black">
+          <th>Imagen Actual del emprendedor</th>
+          <th>Nombre del usuario</th>
+          <th>Correo</th>
+          <th>Nombre del emprendedor</th>
+          <th>Nombre del emprendimiento</th>
+          <th>Direccion del emprendedor</th>
+          <th>Horario de atención del emprendedor</th>
+          <th>Descipcion</th>
+          <th>Latitud de dirección</th>
+          <th>Longitud de dirección</th>
+          <th>Eliminar</th>
+          <th>Modificar</th>
+      </tr>
+   
+      <% for(var i = 0; i < datos.length; i++){ %>
+        <%if(datos[i].activo==1){%>
+         <tr class="w3-striped">
+             <td> <%if(datos[i].logo==''){%> 
+              <div class="form-custom_img">
+              <input type="file" name="logo">
+             </div>
+             <%}else{%>
+              <img style="max-width:60%;max-height:60px" src= "img/<%=datos[i].logo%>" >
+              <p>¿Desea cambiar la imagen?</p>
+              <form action="/cambiarImagenEmprendedor/<%=datos[i].nombre_usuario%>"  method="POST" onsubmit="return confirmation()" class="card-body">
+                <input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Cambiar" ></input>
+                </form>
+                <% } %> </td>
+             <form action="/modificarEmprendimiento/<%=datos[i].nombre_usuario%>" onsubmit="return confirmation()"  method="POST" class="card-body">
+             <td><%= datos[i].nombre_usuario %> <% i %></td>
+             <td><%= datos[i].correo %></td>
+             <td>
+             <div class="input-group ">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="nombre_emprendedor" type="text" class="form-control" value="<%= datos[i].nombre_emprendedor %>" name="nombre_emprendedor">
+            </div>
+            </td>
+            <td>
+              <div class="input-group ">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+               <input id="nombre_emprendimiento" type="text" class="form-control" value="<%= datos[i].nombre_emprendimiento %>" name="nombre_emprendimiento">
+             </div>
+             </td>
+             <td>
+              <div class="input-group ">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+               <input id="dirección" type="text" class="form-control" value="<%= datos[i].dirección %>" name="dirección">
+             </div>
+             </td>
+             <td>
+              <div class="input-group ">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+               <input id="horario_atencion" type="text" class="form-control" value="<%= datos[i].horario_atencion %>" name="horario_atencion">
+             </div>
+             </td>
+            
+            <td>
+              <div class="input-group ">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+               <input id="descripcion" type="text" class="form-control" value="<%= datos[i].descripcion %>" name="descripcion">
+             </div>
+             </td>
+             <td>
+              <div class="input-group ">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+               <input id="latitud" type="text" class="form-control" value="<%= datos[i].latitud %>" name="latitud">
+             </div>
+             </td>
+             <td>
+              <div class="input-group ">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+               <input id="longitud" type="text" class="form-control" value="<%= datos[i].longitud %>" name="longitud">
+             </div>
+             </td>
+             <td>
+                <input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Modificar" ></input>
+            </form> 
+            </td>
+            <td>
+              <form action="/eliminar/<%=datos[i].nombre_usuario%>"  method="get" onsubmit="return confirmation()" class="card-body">
+              <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="Eliminar" ></input>
+              </form>
+            </td>
+         </tr> 
+         <% } %>
+      <% } %>
+  </table>
+  </div>
+
+<div class="w3-container w3-padding w3-section w3-light-blue w3-center">
+  <h1 class="w3-xlarge">Contacto</h1>
+</div>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-black">
+          <th>Contacto</th>
+          <th>Nombre de usuario</th>
+          <th>Tipo de contacto</th>
+          <th>Modificar</th>
+          <th>Eliminar</th>
+      </tr>
+      <% for(var i = 0; i < datos2.length; i++){ %>
+        <%if(datos2[i].activo==1){%>
+         <tr class="w3-striped">
+          <form action="/modificarContacto/<%=datos2[i].nombre_usuario%>"  method="POST" onsubmit="return confirmation()" class="card-body">
+          <td>
+            <div class="input-group ">
+             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+             <input id="contacto" type="text" class="form-control" value="<%= datos2[i].contacto %>" name="contacto">
+           </div>
+           </td>
+             <td><%= datos2[i].nombre_usuario %></td>
+             <td>
+              <div class="input-group ">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+               <input id="tipo_contacto" type="text" class="form-control" value="<%= datos2[i].tipo_contacto %>" name="tipo_contacto">
+             </div>
+             </td>
+             <td>
+                <input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Mofificar" ></input>
+            </form> 
+            </td>
+            <td>
+              <form action="/eliminar3/<%=datos2[i].nombre_usuario%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="Eliminar" ></input>
+              </form>
+            </td>
+         </tr> 
+      <% } %>
+      <% } %>
+  </table>
+  </div>
+
+<div class="w3-container w3-padding w3-section w3-light-blue w3-center">
+  <h1 class="w3-xlarge">Categoria</h1>
+</div>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-black">
+          <th>Nombre Categoria</th>
+          <th>ID de Categoria</th>
+          <th>Modificar</th>
+          <th>Eliminar</th>
+      </tr>
+      <% for(var i = 0; i < datos4.length; i++){ %>
+      
+         <tr class="w3-striped">
+          <form action="/modificarCategoria/<%=datos4[i].id_cate%>"  method="POST" onsubmit="return confirmation()" class="card-body">
+             <td> <div class="input-group ">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="nombre_cate" type="text" class="form-control" value="<%= datos4[i].nombre_cate %>" name="nombre_cate">
+            </div>
+          </td>
+             <td><%= datos4[i].id_cate %></td>
+             
+             <td>
+             
+                <input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Mofificar" ></input>
+            </form> 
+            </td>
+            <td>
+              <form action="eliminar4/<%=datos4[i].id_cate%>"  method="get"  onsubmit="return confirmation()"  class="card-body">
+              <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="eliminar" ></input>
+              </form>
+            </td>
+         </tr> 
+      
+      <% } %>
+  </table>
+  </div>
+
+<div class="w3-container w3-padding w3-section w3-light-blue w3-center">
+  <h1 class="w3-xlarge">Producto</h1>
+</div>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered w3-xlarge'>
+      <tr class="w3-black">
+          <th>Imagen actual del producto</th>
+          <th>nombre del usuario</th>
+          <th>Precio del producto</th>
+          <th>Nombre del producto del emprendedor</th>
+          <th>Fecha de publicacion del producto del emprendedor</th>
+          <th>ID del producto</th>
+          <th>descripcion del producto</th>
+          <th>ID de Categoria</th>
+          <th>Eliminar</th>
+          <th>Modificar</th>
+      </tr>
+      <% for(var i = 0; i < datos1.length; i++){ %>
+        <%if(datos1[i].activo==1){%>
+         <tr class="w3-striped">
+          <td> <%if(datos1[i].imagen==''){%> 
+            <div class="form-custom_img">
+            <input type="file" name="imagen">
+           </div>
+           <%}else{%>
+            <img style="max-width:60%;max-height:60px" src= "img/<%=datos1[i].imagen%>" >
+            <p>¿Desea cambiar la imagen?</p>
+            <form action="/cambiarImagenProducto/<%=datos[i].nombre_usuario%>"  method="get" onsubmit="return confirmation()" class="card-body">
+              <input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Cambiar" ></input>
+              </form>
+              <% } %></td>
+          <form action="/modificarProducto/<%=datos1[i].id_producto%>"  method="POST" onsubmit="return confirmation()" class="card-body">
+             <td><%= datos1[i].nombre_usuario %> <% i %></td>
+             <td> <div class="input-group ">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="precio" type="text" class="form-control" value="<%= datos1[i].precio %>" name="precio">
+            </div>
+           </td>
+             <td> <div class="input-group ">
+               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input id="nombre_producto" type="text" class="form-control" value="<%= datos1[i].nombre_producto %>" name="nombre_producto">
+             </div>
+          </td> 
+          <td> <%= datos1[i].fecha_publicacion %> </td>
+           <td><%= datos1[i].id_producto %> </td> 
+              <td> <div class="input-group ">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input id="descripcion_produc" type="text" class="form-control" value="<%= datos1[i].descripcion_produc %>" name="descripcion_produc">
+                 </div>
+                  </td> 
+              <td> <div class="input-group ">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input id="id_cate" type="text" class="form-control" value="<%= datos1[i].id_cate %>" name="id_cate">
+               </div>
+                  </td>   
+             <td>
+                <input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Modificar" ></input>
+            </form> 
+            </td>
+            <td>
+              <form action="/eliminar1/<%= datos1[i].id_producto %>"  method="get" onsubmit="return confirmation()" class="card-body">
+              <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="Eliminar" ></input>
+              </form>
+            </td>
+         </tr> 
+         <% } %>
+      <% } %>
+  </table>
+</div>
+
+<div class=' w3-striped'>
+  <h2 class="w3-section">A continuación se muestran las solicitudes de modificacion hechas por un emprendedor:  </h2>
+</div>
+
+<div class="w3-container w3-padding w3-section w3-blue w3-center">
+  <h1 class="w3-xlarge">Solicitudes de Modificación de producto</h1>
+</div>
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-green">
+          <th>Nombre Usuario</th>
+          <th>Motivo</th>
+          <th>Finalizada</th>
+      </tr>
+      <% for(var i = 0; i < datos5.length; i++){ %>
+        <%if(datos5[i].tipo_solicitud=="modificacion"){%>
+          <%if(datos5[i].tipo_entidad=="producto"){%>
+         <tr class="w3-striped">
+         
+          <td> <%= datos5[i].nombre_usuario %></td>
+             <td><%= datos5[i].motivo %></td>
+            <td>
+              <form action="/eliminar5/<%=datos5[i].id_solicitud%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Finalizar" ></input>
+              </form>
+            </td>
+         </tr> 
+         <% } %>
+      <% } %>
+      <% } %>
+  </table>
+  </div>
+
+<div class="w3-container w3-padding w3-section w3-blue w3-center">
+  <h1 class="w3-xlarge">Solicitudes de Modificación de emprendedor</h1>
+</div>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-green">
+          <th>Nombre Usuario</th>
+          <th>Motivo</th>
+          <th>Finalizada</th>
+      </tr>
+      <% for(var i = 0; i < datos5.length; i++){ %>
+        <%if(datos5[i].tipo_solicitud=="modificacion"){%>
+          <%if(datos5[i].tipo_entidad=="emprendedor"){%>
+         <tr class="w3-striped">
+         
+          <td> <%= datos5[i].nombre_usuario %></td>
+             <td><%= datos5[i].motivo %></td>
+            <td>
+              <form action="/eliminar5/<%=datos5[i].id_solicitud%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Finalizar" ></input>
+              </form>
+            </td>
+         </tr> 
+         <% } %>
+      <% } %>
+      <% } %>
+  </table>
+  </div>
+
+<div class="w3-container w3-padding w3-section w3-blue w3-center">
+  <h1 class="w3-xlarge">Solicitudes de Modificación de categoria</h1>
+</div>
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-green">
+          <th>Nombre Usuario</th>
+          <th>Motivo</th>
+          <th>Finalizada</th>
+      </tr>
+      <% for(var i = 0; i < datos5.length; i++){ %>
+        <%if(datos5[i].tipo_solicitud=="modificacion"){%>
+          <%if(datos5[i].tipo_entidad=="categoria"){%>
+         <tr class="w3-striped">
+         
+          <td> <%= datos5[i].nombre_usuario %></td>
+             <td><%= datos5[i].motivo %></td>
+            <td>
+              <form action="/eliminar5/<%=datos5[i].id_solicitud%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Finalizar" ></input>
+              </form>
+            </td>
+         </tr> 
+         <% } %>
+      <% } %>
+      <% } %>
+  </table>
+  </div>
+
+<div class="w3-container w3-padding w3-section w3-blue w3-center">
+  <h1 class="w3-xlarge">Solicitudes de Modificación de contacto</h1>
+</div>
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-green">
+          <th>Nombre Usuario</th>
+          <th>Motivo</th>
+          <th>Finalizada</th>
+      </tr>
+      <% for(var i = 0; i < datos5.length; i++){ %>
+        <%if(datos5[i].tipo_solicitud=="modificacion"){%>
+          <%if(datos5[i].tipo_entidad=="contacto"){%>
+         <tr class="w3-striped">
+         
+          <td> <%= datos5[i].nombre_usuario %></td>
+             <td><%= datos5[i].motivo %></td>
+            <td>
+              <form action="/eliminar5/<%=datos5[i].id_solicitud%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Finalizar" ></input>
+              </form>
+            </td>
+         </tr> 
+         <% } %>
+      <% } %>
+      <% } %>
+  </table>
+  </div>
+<div class=' w3-striped'>
+  <h2 class="w3-section">A continuación se muestran las solicitudes de eliminación hechas por un emprendedor:  </h2>
+</div>
+
+
+<div class="w3-container w3-padding w3-section w3-purple w3-center">
+  <h1 class="w3-xlarge">Solicitudes de eliminación de producto</h1>
+</div>
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-red">
+          <th>Nombre Usuario</th>
+          <th>Motivo</th>
+          <th>Finalizada</th>
+      </tr>
+      <% for(var i = 0; i < datos5.length; i++){ %>
+        <%if(datos5[i].tipo_solicitud=="eliminacion"){%>
+          <%if(datos5[i].tipo_entidad=="producto"){%>
+         <tr class="w3-striped">
+         
+          <td> <%= datos5[i].nombre_usuario %></td>
+             <td><%= datos5[i].motivo %></td>
+            <td>
+              <form action="/eliminar5/<%=datos5[i].id_solicitud%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Finalizar" ></input>
+              </form>
+            </td>
+         </tr> 
+         <% } %>
+      <% } %>
+      <% } %>
+  </table>
+  </div>
+
+<div class="w3-container w3-padding w3-section w3-purple w3-center">
+  <h1 class="w3-xlarge">Solicitudes de eliminación de emprendedor</h1>
+</div>
+
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-red">
+          <th>Nombre Usuario</th>
+          <th>Motivo</th>
+          <th>Finalizada</th>
+      </tr>
+      <% for(var i = 0; i < datos5.length; i++){ %>
+        <%if(datos5[i].tipo_solicitud=="eliminacion"){%>
+          <%if(datos5[i].tipo_entidad=="emprendedor"){%>
+         <tr class="w3-striped">
+         
+          <td> <%= datos5[i].nombre_usuario %></td>
+             <td><%= datos5[i].motivo %></td>
+            <td>
+              <form action="/eliminar5/<%=datos5[i].id_solicitud%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Finalizar" ></input>
+              </form>
+            </td>
+         </tr> 
+         <% } %>
+      <% } %>
+      <% } %>
+  </table>
+  </div>
+
+
+<div class="w3-container w3-padding w3-section w3-purple w3-center">
+  <h1 class="w3-xlarge">Solicitudes de eliminación de contacto</h1>
+</div>
+<div style="overflow-x:auto;">
+  <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
+      <tr class="w3-red">
+          <th>Nombre Usuario</th>
+          <th>Motivo</th>
+          <th>Finalizada</th>
+      </tr>
+      <% for(var i = 0; i < datos5.length; i++){ %>
+        <%if(datos5[i].tipo_solicitud=="eliminacion"){%>
+          <%if(datos5[i].tipo_entidad=="contacto"){%>
+         <tr class="w3-striped">
+         
+          <td> <%= datos5[i].nombre_usuario %></td>
+             <td><%= datos5[i].motivo %></td>
+            <td>
+              <form action="/eliminar5/<%=datos5[i].id_solicitud%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <input type="submit" class="btn btn-success" onclick="confirmar_envio()" value="Finalizar" ></input>
+              </form>
+            </td>
+         </tr> 
+         <% } %>
+      <% } %>
+      <% } %>
+  </table>
+  </div>
+
+
+    </div>
+    
+  
+
+
+
+    
+
+
+
+<script type="text/javascript">
+      function confirmation() 
+      {
+         if(confirm("¿Desea confirmar esta acción?"))
+   {
+      return true;
+   }
+   else
+   {
+      return false;
+   }
+      }
+     </script>
+
+<script>
+
+ // Accordion 
+function myAccFunc() {
+      var x = document.getElementById("demoAcc");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else {
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+  
+    
+    // Click on the "Jeans" link on page load to open the accordion for demo purposes
+document.getElementById("myBtn").click();
+
+function w3_open() {
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("myOverlay").style.display = "block";
+}
+
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("myOverlay").style.display = "none";
+}
+
+openNav("nav01");
+function openNav(id) {
+  document.getElementById("nav01").style.display = "none";
+  document.getElementById("nav02").style.display = "none";
+  document.getElementById("nav03").style.display = "none";
+  document.getElementById(id).style.display = "block";
+}
+
+</script>
+
+<script src="https://www.w3schools.com/lib/w3codecolor.js"></script>
+
+<script>
+w3CodeColor();
+</script>
+
+</body>
+</html> 

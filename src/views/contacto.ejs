@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!--CSS-->
+    <link rel="stylesheet" href="css/styleConsult.css">
+    <!--Icons-->
+    <script src="https://kit.fontawesome.com/62ea397d3a.js" crossorigin="anonymous"></script>
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap" rel="stylesheet">
+    <title>Ingrese Emprendedor</title>
+</head>
+<body>
+
+    
+    <div class="container-fluid">
+        
+        <h1>Formulario para Agregar Emprendedor</h1>
+        <div class="row">
+            <div class="col col-form">
+                <form action="/FormularioContacto"  method="POST" class="form-custom" enctype="multipart/form-data">
+                    <p>Ingrese su contacto, numero o pagina web (debe ser la direccion url en caso de facebook, instagram, facebook y telegram)</p>
+                    <div class="form-custom_nameStore">
+                        <input type="text" name="contacto" placeholder="contacto"">
+                    </div>
+                    
+                    <div class="form-custom_nameStore">
+                        <input type="text" name="nombre_usuario"  placeholder="Nombre de Usuario">
+                    </div>
+                    <p>Ingrese el tipo de contacto</p>
+                    <div class="w3-row padding">
+                        <div class="w3-third ">
+                          <input id="tipo_contacto" class="w3-radio" type="radio" name="tipo_contacto" value="Whatsapp" >
+                        <label>Whatsapp</label>
+                        <br>
+                        </div>
+                        <div class="w3-third">
+                          <input id="tipo_contacto" class="w3-radio" type="radio" name="tipo_contacto" value="Instagram" >
+                          <label>Instagram</label>
+                          <br>
+                        </div>
+                        <div class="w3-third">
+                          <input id="tipo_contacto" class="w3-radio" type="radio" name="tipo_contacto" value="Pagina web" >
+                          <label>Pagina Web</label>
+                          <br>
+                        </div>
+                        <div class="w3-third">
+                          <input id="tipo_contacto" class="w3-radio" type="radio" name="tipo_contacto" value="Facebook" >
+                          <label>Facebook</label>
+                          <br>
+                        </div>
+                        <div class="w3-third">
+                            <input id="tipo_contacto" class="w3-radio" type="radio" name="tipo_contacto" value="Telegram" >
+                            <label>Telegram</label>
+                            <br>
+                          </div>
+                      </div>
+
+                    
+                    <div class="form-custom_button">
+                        <button type="submit" class="btn btn-primary">Solicitar ingreso</button>
+                        <a href="/" class="btn btn-warning">Volver a inicio</a>
+                    </div>
+                </form>
+
+            <div class="col col-hidden">
+                <div class="img-question">
+                    <img src="img/question.png" alt="">
+                </div>
+            </div>
+          </div>
+    </div>
+   
+</body>
+<script>
+    function listen(e){
+        console.log(e);
+        if(e.matches){
+            document.querySelector(".col-hidden").style.display='none';
+        }else{
+            document.querySelector(".col-hidden").style.display='grid';
+        }
+    }
+    let screenPW = window.matchMedia("(max-width: 750px)");
+    listen(screenPW);
+    screenPW.addListener(listen);
+
+</script>
+</html>

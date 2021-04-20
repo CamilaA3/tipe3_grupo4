@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingreso</title>
+     <!-- BOOSTRAP-->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <body>
+     
+    </head>
+<body>
+    <header class="w3-container w3-theme w3-padding-32 w3-center">
+        <h1 class="w3-xxxlarge w3-padding-16">Login Emprendimientos San Antonio </h1>
+      </header>
+      <% for(var i = 0; i < errors.length; i++){ %>
+        <div class="w3-panel w3-red">
+            <h3>Error!!</h3>
+            <p>Su usuario no ha sido encontrado por favor intente nuevamente</p>
+          </div> 
+        <% } %>
+
+      <div class="container" align="center">
+        <div class="w3-center" align="center">
+            <h2 >Por favor, ingrese su nombre de usuario y su contraseña</h2>
+        <form action="/login" method="POST" class="border p-3 form">
+            <p><label>Nombre Usuario: <input type="text" name="username" id=""></label></p>
+            <p><label>Contraseña: <input type="password" name="password" id=""></label></p>
+            <input type="submit" value="Confirmar"class="btn btn-primary">
+            </form>
+            <h2 >¿No tienes cuenta? Registrate aquí</h2>
+            <a type="button" class="btn btn-success" href="/Registrar" >Registrarse</a>
+           
+            
+
+        
+</div>
+</div>
+
+<%if(estado==1) { %>
+    <div class="w3-panel w3-yellow">
+        <h3>Cuidado!</h3>
+        <p>su usuario o contraseña es o son incorrectos verifique nuevamente.</p>
+      </div> 
+<% } %>
+
+</body>
+
+</html>
