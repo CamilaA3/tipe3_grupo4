@@ -112,7 +112,7 @@
             <th>Nombre del producto</th>
             <th>imagen</th>
             <th>fecha de publicacion</th>
-            <th>ID de Categoria</th>
+            <th>Nombre de la categoria</th>
             <th>descripcion del producto</th>
             <th>Rechazar</th>
             <th>Aceptar</th>
@@ -125,7 +125,7 @@
                <td><%= datos1[i].nombre_producto %></td>
                <td><img style="max-width:60%;max-height:60px" src= "img/<%=datos1[i].imagen%>" ></td>
                <td><%= datos1[i].fecha_publicacion %></td>
-               <td><%= datos1[i].id_cate %></td>
+               <td><%= datos1[i].nombre_cate %></td>
                <td><%= datos1[i].descripcion_produc %></td>
                <td>
                 <form action="/eliminar1/<%=datos1[i].id_producto%>"  method="get" onsubmit="return confirmation()" class="card-body">
@@ -428,7 +428,6 @@
   <table class='w3-table-all w3-centered w3-card-4 table table-bordered'>
       <tr class="w3-black">
           <th>Nombre Categoria</th>
-          <th>ID de Categoria</th>
           <th>Modificar</th>
           <th>Eliminar</th>
       </tr>
@@ -441,7 +440,7 @@
               <input id="nombre_cate" type="text" class="form-control" value="<%= datos4[i].nombre_cate %>" name="nombre_cate">
             </div>
           </td>
-             <td><%= datos4[i].id_cate %></td>
+             
              
              <td>
              

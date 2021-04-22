@@ -212,13 +212,14 @@ router.get('/', (req,res) => { //metodo para seleccionar los datos
 
 
 router.post('/FormularioProducto',(req, res) => {
-    const {nombre_usuario,precio, nombre_producto, imagen, descripcion_produc} = req.body;
+    const {nombre_usuario,precio, nombre_producto, imagen, descripcion_produc, nombre_cate} = req.body;
     conn.query('INSERT into producto SET? ',{
         nombre_usuario: nombre_usuario,
         precio: precio,
         nombre_producto: nombre_producto,
         imagen: req.files[0].filename,
-        descripcion_produc: descripcion_produc
+        descripcion_produc: descripcion_produc,
+        nombre_cate: nombre_cate
     }, (err, result) => {
         
         if(!err) {
@@ -233,34 +234,32 @@ router.post('/FormularioProducto',(req, res) => {
 
 
 router.post('/AgregarCategoria',(req, res) => {
-    const {nombre_cate} = req.body;
     
+    const {nombre_cate} = req.body;
+ 
     conn.query('Select nombre_cate from categoria where nombre_cate = ?',[nombre_cate] , (err,resp,campos) => {
-       
+         
         if(nombre_cate==''){
             estadoCategoria=1;
             setEstadoCategoria(estadoCategoria);
             res.redirect('/Agregar')
-        }else if(nombre_cate==resp[0].nombre_cate){
-            estadoCategoria = 2;
-            setEstadoCategoria(estadoCategoria);
-            res.redirect('/Agregar');
-        }else{
-            
-    conn.query('INSERT into categoria SET?',{
-        nombre_cate: nombre_cate
-    }, (err, result) => {
+         }else{
+            conn.query('INSERT into categoria SET?',{
+                nombre_cate: nombre_cate
+            }, (err, result) => {
+               
+                if(!err) {
+                    console.log("Categoria ingresada!!!")
+                    res.redirect('/admin');
+                } else {
+                    estadoCategoria = 2;
+                    setEstadoCategoria(estadoCategoria);
+                    res.redirect('/Agregar');
+                    }
+                });  
+         }
+    });    
         
-        if(!err) {
-            console.log("Categoria ingresada!!!")
-            res.redirect('/admin');
-        } else {
-            console.log("estoy aqui")
-            console.log(err);
-            }
-        });
-     }
-    });
     
 });
 
