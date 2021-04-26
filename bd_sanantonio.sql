@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-04-2021 a las 22:28:42
+-- Tiempo de generación: 26-04-2021 a las 03:14:22
 -- Versión del servidor: 10.4.16-MariaDB
 -- Versión de PHP: 7.4.12
 
@@ -72,16 +72,16 @@ CREATE TABLE `contacto` (
   `contacto` tinytext NOT NULL,
   `nombre_usuario` varchar(15) NOT NULL,
   `tipo_contacto` enum('Whatsapp','Instagram','Pagina web','Facebook','Telegram') NOT NULL,
-  `activo` tinyint(1) NOT NULL DEFAULT 0
+  `activo` tinyint(1) NOT NULL DEFAULT 0,
+  `id_contacto` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `contacto`
 --
 
-INSERT INTO `contacto` (`contacto`, `nombre_usuario`, `tipo_contacto`, `activo`) VALUES
-('+56911111111', 'cadu', 'Whatsapp', 1),
-('asdasd', 'cadu', 'Instagram', 1);
+INSERT INTO `contacto` (`contacto`, `nombre_usuario`, `tipo_contacto`, `activo`, `id_contacto`) VALUES
+('cadu2.net', 'cadu', 'Pagina web', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -130,7 +130,7 @@ CREATE TABLE `emprendedor` (
 --
 
 INSERT INTO `emprendedor` (`nombre_usuario`, `correo`, `nombre_emprendedor`, `nombre_emprendimiento`, `dirección`, `horario_atencion`, `logo`, `activo`, `descripcion`, `latitud`, `longitud`) VALUES
-('cadu', 'cadu@dominio.cl', 'Claudia Tobar Moyar', 'Qinti', 'calle falsa 123', 'Lunes a viernes 8:00 a 16:00 hrs', 'facebook.png', 1, 'Vendo nueces!!!', 0, 0);
+('cadu', 'cadu@dominio.cl', 'Claudia Tobar Moyar', 'Qinti', 'calle falsa 123', 'Lunes a viernes 8:00 a 16:00 hrs', 'facebook.png', 1, 'Vendo nueces!!!', -33.6189, -71.6041);
 
 -- --------------------------------------------------------
 
@@ -155,7 +155,7 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`nombre_usuario`, `activo`, `precio`, `nombre_producto`, `imagen`, `fecha_publicacion`, `id_producto`, `descripcion_produc`, `nombre_cate`) VALUES
-('cadu', 1, 20000, 'tapiz', 'wsp.jfif', '2021-04-21 23:03:22', 4, 'asdasdasd', 'No categoria');
+('cadu', 1, 20000, 'tapiz', 'wsp.jfif', '2021-04-21 23:03:22', 4, 'asdasdasd', 'Entretencion');
 
 -- --------------------------------------------------------
 
@@ -191,6 +191,7 @@ ALTER TABLE `categoria`
 -- Indices de la tabla `contacto`
 --
 ALTER TABLE `contacto`
+  ADD PRIMARY KEY (`id_contacto`),
   ADD KEY `nombre_usuario` (`nombre_usuario`);
 
 --
@@ -223,6 +224,12 @@ ALTER TABLE `solicitudes`
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
+
+--
+-- AUTO_INCREMENT de la tabla `contacto`
+--
+ALTER TABLE `contacto`
+  MODIFY `id_contacto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
