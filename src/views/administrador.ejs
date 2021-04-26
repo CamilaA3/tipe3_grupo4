@@ -159,7 +159,7 @@
       <% for(var i = 0; i < datos2.length; i++){ %>
         <%if(datos2[i].activo==0){%>
          <tr class="w3-striped">
-          <form action="/modificar2/<%=datos2[i].nombre_usuario%>"  method="POST" onsubmit="return confirmation()" class="card-body">
+          <form action="/modificar2/<%=datos2[i].id_contacto%>"  method="POST" onsubmit="return confirmation()" class="card-body">
           <td> <%= datos2[i].contacto %></td>
              <td><%= datos2[i].nombre_usuario %></td>
              <td> <%= datos2[i].tipo_contacto %></td>
@@ -168,7 +168,7 @@
             </form> 
             </td>
             <td>
-              <form action="/eliminar3/<%=datos2[i].nombre_usuario%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <form action="/eliminar3/<%=datos2[i].id_contacto%>"  onsubmit="return confirmation()" method="get" class="card-body">
               <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="Rechazar" ></input>
               </form>
             </td>
@@ -385,13 +385,14 @@
           <th>Contacto</th>
           <th>Nombre de usuario</th>
           <th>Tipo de contacto</th>
+          <th>Id del contacto</th>
           <th>Modificar</th>
           <th>Eliminar</th>
       </tr>
       <% for(var i = 0; i < datos2.length; i++){ %>
         <%if(datos2[i].activo==1){%>
          <tr class="w3-striped">
-          <form action="/modificarContacto/<%=datos2[i].nombre_usuario%>"  method="POST" onsubmit="return confirmation()" class="card-body">
+          <form action="/modificarContacto/<%=datos2[i].id_contacto%>"  method="POST" onsubmit="return confirmation()" class="card-body">
           <td>
             <div class="input-group ">
              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -405,12 +406,13 @@
                <input id="tipo_contacto" type="text" class="form-control" value="<%= datos2[i].tipo_contacto %>" name="tipo_contacto">
              </div>
              </td>
+             <td><%= datos2[i].id_contacto %></td>
              <td>
                 <input type="submit" class="btn btn-primary" onclick="confirmar_envio()" value="Mofificar" ></input>
             </form> 
             </td>
             <td>
-              <form action="/eliminar3/<%=datos2[i].nombre_usuario%>"  onsubmit="return confirmation()" method="get" class="card-body">
+              <form action="/eliminar3/<%=datos2[i].id_contacto%>"  onsubmit="return confirmation()" method="get" class="card-body">
               <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="Eliminar" ></input>
               </form>
             </td>
@@ -472,7 +474,7 @@
           <th>Fecha de publicacion del producto del emprendedor</th>
           <th>ID del producto</th>
           <th>descripcion del producto</th>
-          <th>ID de Categoria</th>
+          <th>Nombre de la categoria</th>
           <th>Eliminar</th>
           <th>Modificar</th>
       </tr>
@@ -511,7 +513,7 @@
                   </td> 
               <td> <div class="input-group ">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input id="id_cate" type="text" class="form-control" value="<%= datos1[i].id_cate %>" name="id_cate">
+                <input id="nombre_cate" type="text" class="form-control" value="<%= datos1[i].nombre_cate %>" name="nombre_cate">
                </div>
                   </td>   
              <td>

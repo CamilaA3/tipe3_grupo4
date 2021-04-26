@@ -474,9 +474,9 @@ router.post('/modificar1/:id_producto', (req,res,err) =>{
     });
 });
 
-router.post('/modificar2/:nombre_usuario', (req,res,err) =>{
+router.post('/modificar2/:id_contacto', (req,res,err) =>{
    
-    conn.query('UPDATE contacto SET activo=1 WHERE nombre_usuario = ?', [req.params.nombre_usuario], (err, resp, campos) => {
+    conn.query('UPDATE contacto SET activo=1 WHERE id_contacto = ?', [req.params.id_contacto], (err, resp, campos) => {
         if(!err){
             console.log("contacto aceptado")
             res.redirect('/admin')
@@ -528,11 +528,11 @@ router.post('/modificarEmprendimiento/:nombre_usuario', (req,res,err) =>{
     });
 });
 
-router.post('/modificarContacto/:nombre_usuario', (req,res,err) =>{
+router.post('/modificarContacto/:id_contacto', (req,res,err) =>{
     
     const {contacto, tipo_contacto}= datitos =  req.body;
-    const {nombre_usuario} = req.params
-    conn.query('UPDATE contacto SET? WHERE nombre_usuario = ?', [datitos, req.params.nombre_usuario], (err, resp, campos) => {
+    const {id_contacto} = req.params
+    conn.query('UPDATE contacto SET? WHERE id_contacto = ?', [datitos, req.params.id_contacto], (err, resp, campos) => {
         if(!err){
             console.log("contacto actualizado")
             res.redirect('/admin')
@@ -614,11 +614,11 @@ router.get('/eliminar2/:nombre_usuario', (req,res,err) =>{
     });
 });
 
-router.get('/eliminar3/:nombre_usuario', (req,res,err) =>{
+router.get('/eliminar3/:id_contacto', (req,res,err) =>{
 
-    const { nombre_usuario } = req.params;
+    const { id_contacto } = req.params;
     
-    conn.query('DELETE from contacto WHERE nombre_usuario = ?', [nombre_usuario], (err, resp, campos) => {
+    conn.query('DELETE from contacto WHERE id_contacto = ?', [id_contacto], (err, resp, campos) => {
         if(!err){
             console.log("contacto eliminado")
             res.redirect('/admin')

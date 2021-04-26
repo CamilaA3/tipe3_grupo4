@@ -84,8 +84,6 @@ h1{font-size: 1.5em;}
 }
 #right{
     float: none;
-    display: flex;
-    flex-wrap: wrap;
     overflow:hidden;
 }
 #search-options{
@@ -187,6 +185,10 @@ section .row{
     justify-content: center;
     align-content: center;
 }
+.engine{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
 .col-box{
     text-align: center;
     margin: 20px 0px;
@@ -216,6 +218,10 @@ section .row{
 .col-box .title-product{
     background: #ffffff;
     width: 250px;
+}
+#new{
+    visibility: hidden;
+    position: absolute;
 }
 
 footer{

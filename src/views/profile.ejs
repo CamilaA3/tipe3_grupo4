@@ -56,10 +56,14 @@
     </header>
     <%var imagen =""%>
     <%var desc = ""%>
+    <%var latitud = ""%>
+    <%var longitud = ""%>
     <% for(var i = 0; i < datos3.length; i++){ %>
         <%if(datos3[i].activo==1){%> 
             <%imagen =datos3[i].logo%>
             <%desc = datos3[i].descripcion%>
+            <%latitud = datos3[i].latitud%>
+            <%longitud = datos3[i].longitud%>
             <% } %>
         <% } %>
     <section id="above-section">
@@ -67,14 +71,20 @@
             <div id="details-title" class="displaycase-header">
                 <h1> Perfil </h1>
             </div>
-
-            <div id="profile-image">
-                <img src="/img/<%=imagen%>" alt="">
+            <div id = "profile-content">
+                <div id="profile-image">
+                    <img src="/img/<%=imagen%>" alt="">
+                </div>
+                <div id="profile-description" class="subcase">
+                    <h1><%=desc%></h1>
+                </div>
             </div>
-            <div id="profile-description" class="subcase">
-                <h1><%=desc%></h1>
+        </div>
+        <div id="profile-map" class="display-case">
+            <div id="map-title" class="displaycase-header">
+                <h1>Localización</h1>
+                <iframe src="https://maps.google.com/maps?q=<%=latitud%>, <%=longitud%>&output=embed" width="360" height="270" frameborder="0" style="border:0"></iframe>
             </div>
-
         </div>
     </section>
 
@@ -89,6 +99,7 @@
           <%var tel =""%>
           <%var fcb =""%>
           <%var pw =""%>
+
           <% for(var i = 0; i < datos2.length; i++){ %>
             <%if(datos2[i].activo==1){%> 
             <%if(datos2[i].tipo_contacto=='Instagram'){%> 
@@ -108,6 +119,7 @@
                 <% } %>
                 <% } %>
             <% } %>
+
             <div class="contact-box subcase"">
                 <div class="contact-icon">
                     <img src="/img/wsp.jfif" alt="">
@@ -154,8 +166,8 @@
                 </div>
             </div>
         </div>
-        <section id="right">
-            <div id="profile-products" class="display-case">
+
+            <div id="products-box" class="display-case">
                 <div id="faq-title" class="displaycase-header">
                     <h2>Productos</h2>
                 </div>
@@ -175,38 +187,49 @@
                         </div>
                     </div>
                 </div>
-                <!-- Carga de datos a la pagina web para no llamarlos a cada instante -->
                 <div id="loadData">
-                    <div id="dataProducts" hidden>
-                        <% for(var i=0; i < datos.length; i++){ %>
-                            <li><%= datos[i].nombre_usuario %></li>
-                            <li><%= datos[i].activo %></li>
-                            <li><%= datos[i].precio %></li>
-                            <li><%= datos[i].nombre_producto %></li>
-                            <li><%= datos[i].imagen %></li>
-                            <li><%= datos[i].fecha_publicacion %></li>
-                            <li><%= datos[i].id_producto %></li>
-                            <li><%= datos[i].descripcion_produc %></li>
-                            <li><%= datos[i].id_cate %></li>
-                        <% } %>
-                    </div>
                     <div id="dataCategory" hidden>
                         <% for(var i=0; i < cat.length; i++){ %>
                             <li><%= cat[i].nombre_cate %></li>
-                            <li><%= cat[i].id_cate %></li>
                         <% } %>
                     </div>
                 </div>
-                <!-- **************************************************************** -->
-                <!-- Mostrar todos los productos con javascript -->
                 <div id="products">
                     <div class="row" id="row-products">
-    
+                        <div class="engine" id="engine">
+                            <% for(var i = 0; i < datos.length; i++){ %>
+                                <% if(datos[i].activo == 1){ %>
+                                    <div class="col col-box" id="containerData">
+                                        <div class="renderImage" id="renderImage">
+                                            <% if(datos[i].imagen == ''){ %>
+                                                <img src="/img/default.png" alt="">
+                                            <% }else{ %>
+                                                <img src="/img/<%= datos[i].imagen %>" alt="">
+                                            <% } %>
+                                        </div>
+                                        <div class="desc-product" id="containerWhite">
+                                            <a><%= datos[i].descripcion_produc %></a>
+                                            <a><%= datos[i].precio %></a>
+                                            <a type="button" class="btn-desc" href="/profile/<%= datos[i].nombre_usuario %>">ver mas</a>
+                                        </div>
+                                        <div class="title-product">
+                                            <a><%= datos[i].nombre_producto %></a>
+                                        </div>
+                                        <div class="dataHidden" id="dataHidden" hidden>
+                                            <a><%= datos[i].nombre_usuario %></a>
+                                            <a><%= datos[i].activo %></a>
+                                            <a><%= datos[i].fecha_publicacion %></a>
+                                            <a><%= datos[i].id_producto %></a>
+                                            <a><%= datos[i].nombre_cate %></a>
+                                        </div>
+                                    </div>
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <div id="new"></div>
                     </div>
                 </div>
-                <!-- ****************************************** -->
             </div>
-        </section>
     </section>
 
     <footer>
@@ -221,78 +244,93 @@
 </body>
 
 <script>
-    // Seccion para visualizar los datos de los productos ***********************************************************************************************
-    const products = document.getElementById("dataProducts");
-    const category = document.getElementById("dataCategory");
-    let sectionProducts = document.getElementById("row-products");
-    var dataProducts = [];
-    var dataCategory = [];
-
-    function productsToShow(){
-        let cont = 0;
-        let arrayTemporary = [];
-        for(let i=0; i < products.getElementsByTagName("li").length; i++){
-            arrayTemporary[cont] = products.getElementsByTagName("li")[i].innerText;
-            cont++;
-            if(cont == 9){
+    const engine = document.getElementById("engine");
+    const category = document.getElementById("dataCategory").getElementsByTagName("li");
+    const dropdown_menu = document.getElementById("dropdown-menu");
+    const btn_dropdown = document.getElementById("btn-dropdown");
+    var dataProducts=[];
+    var dataCategory=[];
+    var arrayTemporary = [];
+    function obtenerDataProduct(){
+        arrayTemporary = [];
+        for (let i = 0; i < engine.getElementsByTagName("a").length; i++) {
+            if(engine.getElementsByTagName("a")[i].innerHTML != "ver mas"){
+                arrayTemporary.push(engine.getElementsByTagName("a")[i].innerHTML);  
+            }
+            if((((i+1)%9)== 0) && (i != 0)){
                 dataProducts.push(arrayTemporary);
                 arrayTemporary = [];
-                cont=0;
             }
         }
     }
-
-    productsToShow();
-    //<a type="button" class="btn-desc" href="'+dataProducts[i][6]+'">ver mas</a>
-    
-
-    function showProducts(){
-        sectionProducts.innerHTML='';
-        let page=[];
-        let pageTemporary = [];
-        let pageEnd;
-        console.log(dataProducts);
-        for(let i=0; i< dataProducts.length; i++){
-            pageTemporary.push('<div class="col col-box">')
-            if(dataProducts[i][1] == 1){//para saber si esta activo o no
-                if(dataProducts[i][4] == ""){
-                    pageTemporary.push('<img src="/img/default.png" alt="">');
-                    pageTemporary.push('<div class="desc-product"><p>'+dataProducts[i][7]+'</p><a>'+dataProducts[i][2]+'</a><a type="button" class="btn-desc" href="/profile/'+dataProducts[i][0]+'">ver mas</a></div>');
-                    pageTemporary.push('<div class="title-product" id="title-product"><a>'+dataProducts[i][3]+'</a></div>');                     
-                }else{
-                    pageTemporary.push('<img src="/img/'+dataProducts[i][4]+'" alt="">');
-                    pageTemporary.push('<div class="desc-product"><p>'+dataProducts[i][7]+'</p><a>'+dataProducts[i][2]+'</a><a type="button" class="btn-desc" href="/profile/'+dataProducts[i][0]+'">ver mas</a></div>');
-                    pageTemporary.push('<div class="title-product" id="title-product"><a>'+dataProducts[i][3]+'</a></div>');
-                }
-            }
-            pageTemporary.push('</div>')
-            page.push(pageTemporary);
-            pageTemporary = [];
-        }
-        for (let i = 0; i < page.length; i++) {
+    function obtenerDataCategory(){
+       for (let i = 0; i < category.length; i++) {
+           dataCategory.push(category[i].innerHTML);       
+       }
+    }
+    function fillCategory(){
+        obtenerDataCategory();
+        let page;
+        for (let i = 0; i < dataCategory.length; i++) {
             if(i==0){
-                pageEnd = page[i][0]+page[i][1]+page[i][2]+page[i][3]+page[i][4];
+                page = '<li><a class="dropdown-item" id="'+dataCategory[i]+'" onclick="selectCategory(this)">'+dataCategory[i]+'</a></li>';
             }else{
-                pageEnd = pageEnd+page[i][0]+page[i][1]+page[i][2]+page[i][3]+page[i][4];
+                page = page +'<li><a class="dropdown-item" id="'+dataCategory[i]+'" onclick="selectCategory(this)">'+dataCategory[i]+'</a></li>';
+            }    
+        }
+        dropdown_menu.innerHTML=page;     
+    }
+    fillCategory();
+    obtenerDataProduct();
+    const containerData = engine.getElementsByClassName("col col-box");
+    var newDiv = document.getElementById("new");
+    function selectCategory(element){
+        let page="";
+        let cont=0;
+        let verificador=0;
+        for (let i = 0; i < containerData.length; i++) {
+            if(element.textContent.toLocaleLowerCase() == "categorias"){
+                changeCategory = btn_dropdown.textContent;
+                btn_dropdown.innerText = element.textContent;
+                element.textContent = changeCategory;
+                break;
+            }else{
+                if(containerData[i].outerHTML.search(element.textContent) != -1){
+                    console.log(cont);
+                    if(cont == 0){
+                        page = containerData[i].outerHTML;
+                    }else{
+                        page = page + containerData[i].outerHTML;
+                    }
+                    cont++;
+                }
+                verificador=1;
             }
         }
-        sectionProducts.innerHTML=pageEnd;
-
+        changeCategory = btn_dropdown.textContent;
+        btn_dropdown.innerText = element.textContent;
+        element.textContent = changeCategory;
+        if(page == ""){
+            page = '<h4>No hay elementos en esta categoria</h4>';
+        }
+        if(verificador==1){
+            engine.style.visibility = 'hidden';
+            newDiv.style.visibility = 'visible';
+            newDiv.innerHTML="";
+            newDiv.innerHTML=page;
+        }else{
+            engine.style.visibility = 'visible';
+            newDiv.style.visibility = 'hidden';
+        }
     }
-    showProducts();
-    // Seccion para visualizar los datos de los productos ***********************************************************************************************
-    
-    
-    
-    //Seccion para hacer funcionar la busqueda *******************************************************************************************
+
     const searchInput = document.getElementById("mySearch");
     const boxSearch = document.getElementById("contentSearch");
     const sugg = document.getElementById("suggestions");
     let namesProducts = [];
     for(let i=0; i < dataProducts.length; i++){
-        namesProducts.push(dataProducts[i][3]);
+        namesProducts.push(dataProducts[i][2]);
     }
-
     searchInput.onkeyup = (e)=>{
         var textInput = e.target.value;
         let filterData = [];
@@ -311,7 +349,8 @@
             }  
         }else{
             boxSearch.classList.remove("active");
-            showProducts();
+            newDiv.style.visibility = 'hidden';
+            engine.style.visibility = 'visible';
         }
     }
 
@@ -319,27 +358,25 @@
         let select = element.textContent;
         searchInput.value = select;
         boxSearch.classList.remove("active");
+        let cont=0;
+        let page;
         for (let i = 0; i < dataProducts.length; i++) {
-            if(dataProducts[i][3] == select){
-                sectionProducts.innerHTML='';
-                let page=[];
-                let pageEnd;
-                page.push('<div class="col col-box">')
-                if(dataProducts[i][1] == 1){//para saber si esta activo o no
-                    if(dataProducts[i][4] == ""){
-                        page.push('<img src="/img/default.png" alt="">');
-                        page.push('<div class="desc-product"><p>'+dataProducts[i][7]+'</p><a>'+dataProducts[i][2]+'</a><a type="button" class="btn-desc" href="/profile/'+dataProducts[i][0]+'">ver mas</a></div>');
-                        page.push('<div class="title-product" id="title-product"><a>'+dataProducts[i][3]+'</a></div>');                     
+            if(containerData[i].outerHTML.search(element.textContent) != -1){     
+                if(cont == 0){
+                        page = containerData[i].outerHTML;
                     }else{
-                        page.push('<img src="/img/'+dataProducts[i][4]+'" alt="">');
-                        page.push('<div class="desc-product"><p>'+dataProducts[i][7]+'</p><a>'+dataProducts[i][2]+'</a><a type="button" class="btn-desc" href="/profile/'+dataProducts[i][0]+'">ver mas</a></div>');
-                        page.push('<div class="title-product" id="title-product"><a>'+dataProducts[i][3]+'</a></div>');
+                        page = page + containerData[i].outerHTML;
                     }
-                }
-                page.push('</div>');
-                pageEnd = page[0]+page[1]+page[2]+page[3]+page[4];
-                sectionProducts.innerHTML=pageEnd;
+                    cont++;
             }
+        }
+        if(cont != 0){
+            engine.style.visibility = 'hidden';
+            newDiv.style.visibility = 'visible';
+            newDiv.innerHTML="";
+            console.log(page);
+            newDiv.innerHTML=page;
+
         }
     }
     function algo(list){
@@ -350,90 +387,6 @@
             listData = list.join('');
         }
         sugg.innerHTML = listData;
-    }
-    //Seccion para hacer funcionar la busqueda *******************************************************************************************
-
-
-    //seccion para hacer funcionar categorias
-    const dropdownMenu = document.getElementById("dropdown-menu");
-    const dropdownBtn = document.getElementById("btn-dropdown");
-
-    function filteredCategory(){
-        let cont = 0;
-        let arrayTemporary = [];
-        for (let i = 0; i < category.getElementsByTagName("li").length; i++) {
-            cont++;
-            arrayTemporary.push(category.getElementsByTagName("li")[i].innerText);
-            if((cont%2) == 0){
-                dataCategory.push(arrayTemporary);
-                arrayTemporary=[];
-            }  
-        }
-        console.log(dataCategory);
-    }
-    filteredCategory();
-
-    function fillCategory(){
-        let page;
-        for (let i = 0; i < dataCategory.length; i++) {
-            if(i==0){
-                page = '<li><a class="dropdown-item" id="'+dataCategory[i][1]+'" onclick="selectCategory(this)">'+dataCategory[i][0]+'</a></li>';
-            }else{
-                page = page +'<li><a class="dropdown-item" id="'+dataCategory[i][1]+'" onclick="selectCategory(this)">'+dataCategory[i][0]+'</a></li>';
-            }    
-        }
-        dropdownMenu.innerHTML=page;
-        console.log(page);     
-    }
-    fillCategory();
-
-    function selectCategory(element){
-        if(element.textContent.toLocaleLowerCase() == 'categorias'){
-            showProducts();
-            change = dropdownBtn.innerText;
-            dropdownBtn.innerText = element.textContent;
-            element.textContent = change;
-        }else{
-            let change;
-            let arrayProducts = [];
-        for (let i = 0; i < dataProducts.length; i++) {
-            if(dataProducts[i][8] == element.id){
-                arrayProducts.push(dataProducts[i]);
-            }
-        }
-        sectionProducts.innerHTML='';
-        let page=[];
-        let pageTemporary = [];
-        let pageEnd;
-        for(let i=0; i< arrayProducts.length; i++){
-            pageTemporary.push('<div class="col col-box">')
-            if(arrayProducts[i][1] == 1){//para saber si esta activo o no
-                if(arrayProducts[i][4] == ""){
-                    pageTemporary.push('<img src="/img/default.png" alt="">');
-                    pageTemporary.push('<div class="desc-product"><p>'+arrayProducts[i][7]+'</p><a>'+arrayProducts[i][2]+'</a><a type="button" class="btn-desc" href="/profile/'+arrayProducts[i][0]+'">ver mas</a></div>');
-                    pageTemporary.push('<div class="title-product" id="title-product"><a>'+arrayProducts[i][3]+'</a></div>');                     
-                }else{
-                    pageTemporary.push('<img src="/img/'+arrayProducts[i][4]+'" alt="">');
-                    pageTemporary.push('<div class="desc-product"><p>'+arrayProducts[i][7]+'</p><a>'+arrayProducts[i][2]+'</a><a type="button" class="btn-desc" href="/profile/'+arrayProducts[i][0]+'">ver mas</a></div>');
-                    pageTemporary.push('<div class="title-product" id="title-product"><a>'+arrayProducts[i][3]+'</a></div>');
-                }
-            }
-            pageTemporary.push('</div>')
-            page.push(pageTemporary);
-            pageTemporary = [];
-        }
-        for (let i = 0; i < page.length; i++) {
-            if(i==0){
-                pageEnd = page[i][0]+page[i][1]+page[i][2]+page[i][3]+page[i][4];
-            }else{
-                pageEnd = pageEnd+page[i][0]+page[i][1]+page[i][2]+page[i][3]+page[i][4];
-            }
-        }
-        sectionProducts.innerHTML=pageEnd;
-        change = dropdownBtn.innerText;
-        dropdownBtn.innerText = element.textContent;
-        element.textContent = change;
-        }
     }
 </script>
 </html>
