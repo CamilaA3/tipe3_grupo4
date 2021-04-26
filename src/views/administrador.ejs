@@ -436,7 +436,7 @@
       <% for(var i = 0; i < datos4.length; i++){ %>
       
          <tr class="w3-striped">
-          <form action="/modificarCategoria/<%=datos4[i].id_cate%>"  method="POST" onsubmit="return confirmation()" class="card-body">
+          <form action="/modificarCategoria/<%=datos4[i].nombre_cate%>"  method="POST" onsubmit="return confirmation()" class="card-body">
              <td> <div class="input-group ">
               <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
               <input id="nombre_cate" type="text" class="form-control" value="<%= datos4[i].nombre_cate %>" name="nombre_cate">
@@ -450,7 +450,7 @@
             </form> 
             </td>
             <td>
-              <form action="eliminar4/<%=datos4[i].id_cate%>"  method="get"  onsubmit="return confirmation()"  class="card-body">
+              <form action="eliminar4/<%=datos4[i].nombre_cate%>"  method="get"  onsubmit="return confirmation()"  class="card-body">
               <input type="submit" class="btn btn-danger" onclick="confirmar_envio()" value="eliminar" ></input>
               </form>
             </td>

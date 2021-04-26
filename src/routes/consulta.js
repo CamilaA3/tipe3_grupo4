@@ -542,11 +542,12 @@ router.post('/modificarContacto/:id_contacto', (req,res,err) =>{
     });
 });
 
-router.post('/modificarCategoria/:id_cate', (req,res,err) =>{
+router.post('/modificarCategoria/:nombre_cate', (req,res,err) =>{
     
-    const {nombre_cate}= datitos =  req.body;
-    const {id_cate} = req.params
-    conn.query('UPDATE categoria SET? WHERE id_cate = ?', [datitos, req.params.id_cate], (err, resp, campos) => {
+   
+    const {nombre_cate} = datitos = req.body;
+    
+    conn.query('UPDATE categoria SET? WHERE nombre_cate = ?', [datitos, req.params.nombre_cate], (err, resp, campos) => {
         if(!err){
             console.log("categoria actualizada")
             res.redirect('/admin')
@@ -628,11 +629,11 @@ router.get('/eliminar3/:id_contacto', (req,res,err) =>{
     });
 });
 
-router.get('/eliminar4/:id_cate', (req,res,err) =>{
+router.get('/eliminar4/:nombre_cate', (req,res,err) =>{
 
-    const { id_cate } = req.params;
+    const { nombre_cate } = req.params;
     
-    conn.query('DELETE from categoria WHERE id_cate = ?', [id_cate], (err, resp, campos) => {
+    conn.query('DELETE from categoria WHERE nombre_cate = ?', [nombre_cate], (err, resp, campos) => {
         if(!err){
             console.log("categoria eliminada")
             res.redirect('/admin')
