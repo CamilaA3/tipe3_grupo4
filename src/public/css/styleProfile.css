@@ -98,3 +98,41 @@ iframe{
 footer{
     bottom:0;
 }
+.engine{
+    display: grid;
+    grid-template-columns: auto auto auto;
+}
+.col-box{
+    text-align: center;
+    margin: 20px 0px;
+    max-width: 270px;
+}
+.col-box img{
+    width: 250px;
+    height: 250px;
+}
+.col-box .desc-product{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    transition: .5s ease;
+}
+.col-box:hover .desc-product{
+    width: 250px;
+    margin-left: 20px;
+    justify-items: center;
+    align-items: center;
+}
+.col-box .title-product{
+    background: #ffffff;
+    width: 250px;
+}
+#new{
+    visibility: hidden;
+    position: absolute;
+}
