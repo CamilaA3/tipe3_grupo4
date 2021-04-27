@@ -290,9 +290,6 @@
         let verificador=0;
         for (let i = 0; i < containerData.length; i++) {
             if(element.textContent.toLocaleLowerCase() == "categorias"){
-                changeCategory = btn_dropdown.textContent;
-                btn_dropdown.innerText = element.textContent;
-                element.textContent = changeCategory;
                 break;
             }else{
                 if(containerData[i].outerHTML.search(element.textContent) != -1){
@@ -321,6 +318,7 @@
         }else{
             engine.style.visibility = 'visible';
             newDiv.style.visibility = 'hidden';
+            btn_dropdown.innerText = 'Categorias';
         }
     }
 
