@@ -459,7 +459,22 @@
       <% } %>
   </table>
   </div>
-
+<%if(estadoCategoria==1){%>
+  <div class="w3-panel w3-red">
+    <h3>Error!!</h3>
+    <p>Su categoria no fue actualizada porque tiene campos vacios, ingreselo nuevamente </p>
+  </div>
+  <% }else if(estadoCategoria==2){ %>
+    <div class="w3-panel w3-yellow">
+      <h3>Error!!</h3>
+      <p>Su categoria no fue actualizada ya que esta repetida, por favor ingreselo nuevamente</p>
+    </div>
+    <% }else if(estadoCategoria==3){ %>
+      <div class="w3-panel w3-green">
+        <h3>Felicidades</h3>
+        <p>Su categoria fue actualizada correctamente</p>
+      </div>
+      <% } %>
 <div class="w3-container w3-padding w3-section w3-light-blue w3-center">
   <h1 class="w3-xlarge">Producto</h1>
 </div>

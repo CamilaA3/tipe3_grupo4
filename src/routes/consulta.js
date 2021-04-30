@@ -356,6 +356,7 @@ router.get('/admin', (req,res,next) =>{
         if(tipo_usuario==='emprendedor'){
             res.redirect('/')
         }
+    estadoCategoria = getEstadoCategoria();
     conn.query('Select * from emprendedor', (err,resp,campos) => {
         conn.query('Select * from producto', (err,resp1,campos) => {
             conn.query('Select * from contacto', (err,resp2,campos) => {
@@ -363,7 +364,7 @@ router.get('/admin', (req,res,next) =>{
                     conn.query('Select * from categoria', (err,resp4,campos) => {
                         conn.query('Select * from solicitudes', (err,resp5,campos) => {
                             conn.query('Select * from administrador', (err,resp6,campos) => {
-                                res.render('administrador.ejs',   { datos: resp ,datos1: resp1, datos2: resp2, datos3: resp3, datos4: resp4, datos5:resp5, datos6: resp6});
+                                res.render('administrador.ejs',   { datos: resp ,datos1: resp1, datos2: resp2, datos3: resp3, datos4: resp4, datos5:resp5, datos6: resp6, estadoCategoria});
                             });
                         });
                     });
@@ -543,18 +544,37 @@ router.post('/modificarContacto/:id_contacto', (req,res,err) =>{
 });
 
 router.post('/modificarCategoria/:nombre_cate', (req,res,err) =>{
-    
    
-    const {nombre_cate} = datitos = req.body;
+            const {nombre_cate} = datitos = req.body;
+            
+            if(nombre_cate==''){
+                estadoCategoria = 1
+                setEstadoCategoria(estadoCategoria);
+                console.log("estoy aqui en 1")
+                res.redirect('/admin')
+            }else{
+            conn.query('UPDATE categoria SET? WHERE nombre_cate = ?', [datitos, req.params.nombre_cate], (err, resp, campos) => {
+              
+              
+                    if(!err){
+                 
+                        console.log("categoria actualizada")
+                        estadoCategoria = 3
+                        setEstadoCategoria(estadoCategoria);
+                        console.log("estoy aqui en 3")
+                        res.redirect('/admin')
+                    }else{
+                        estadoCategoria = 2
+                        setEstadoCategoria(estadoCategoria);
+                        console.log("estoy aqui en 2")
+                        res.redirect('/admin')
+                    }
+              
+            });
+
+            }
     
-    conn.query('UPDATE categoria SET? WHERE nombre_cate = ?', [datitos, req.params.nombre_cate], (err, resp, campos) => {
-        if(!err){
-            console.log("categoria actualizada")
-            res.redirect('/admin')
-        }else{
-            console.log(err);
-        }
-    });
+    
 });
 
 router.post('/modificarProducto/:id_producto', (req,res,err) =>{
