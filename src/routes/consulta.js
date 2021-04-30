@@ -7,7 +7,7 @@ const flash    = require('connect-flash');
 var estadoCategoria = 0;
 var estadoAdministrador = 0;
 var estadoRegistrar = 0;
-
+var estadoContacto = 0
 //Getters y setters de estados
 function setEstadoCategoria(estadoCategoria){
     this.estadoCategoria = estadoCategoria;
@@ -33,6 +33,16 @@ function getEstadoRegistrar(){
     return estadoRegistrar;
 }
 
+function setEstadoContacto (){
+    this.estadoContacto = estadoContacto;
+}
+
+function getEstadoContacto(){
+    return estadoContacto;
+}
+
+
+//Routers get y post
 router.get('/consulta', (req,res,next) =>{
 
     if(req.isAuthenticated()) return next();
@@ -357,6 +367,7 @@ router.get('/admin', (req,res,next) =>{
             res.redirect('/')
         }
     estadoCategoria = getEstadoCategoria();
+    estadoContacto = getEstadoContacto();
     conn.query('Select * from emprendedor', (err,resp,campos) => {
         conn.query('Select * from producto', (err,resp1,campos) => {
             conn.query('Select * from contacto', (err,resp2,campos) => {
@@ -364,7 +375,7 @@ router.get('/admin', (req,res,next) =>{
                     conn.query('Select * from categoria', (err,resp4,campos) => {
                         conn.query('Select * from solicitudes', (err,resp5,campos) => {
                             conn.query('Select * from administrador', (err,resp6,campos) => {
-                                res.render('administrador.ejs',   { datos: resp ,datos1: resp1, datos2: resp2, datos3: resp3, datos4: resp4, datos5:resp5, datos6: resp6, estadoCategoria});
+                                res.render('administrador.ejs',   { datos: resp ,datos1: resp1, datos2: resp2, datos3: resp3, datos4: resp4, datos5:resp5, datos6: resp6, estadoCategoria, estadoContacto});
                             });
                         });
                     });
@@ -533,14 +544,27 @@ router.post('/modificarContacto/:id_contacto', (req,res,err) =>{
     
     const {contacto, tipo_contacto}= datitos =  req.body;
     const {id_contacto} = req.params
+    if(contacto==''){
+        estadoContacto = 1;
+        setEstadoContacto(estadoContacto);
+        res.redirect('/admin')
+    }else if(tipo_contacto== ''){
+        estadoContacto = 1;
+        setEstadoContacto(estadoContacto);
+        res.redirect('/admin')
+    
+    }else{
     conn.query('UPDATE contacto SET? WHERE id_contacto = ?', [datitos, req.params.id_contacto], (err, resp, campos) => {
         if(!err){
             console.log("contacto actualizado")
+            estadoContacto = 3;
+            setEstadoContacto(estadoContacto);
             res.redirect('/admin')
         }else{
-            console.log(err);
+            console.log(err)
         }
     });
+    }
 });
 
 router.post('/modificarCategoria/:nombre_cate', (req,res,err) =>{
@@ -550,7 +574,7 @@ router.post('/modificarCategoria/:nombre_cate', (req,res,err) =>{
             if(nombre_cate==''){
                 estadoCategoria = 1
                 setEstadoCategoria(estadoCategoria);
-                console.log("estoy aqui en 1")
+              
                 res.redirect('/admin')
             }else{
             conn.query('UPDATE categoria SET? WHERE nombre_cate = ?', [datitos, req.params.nombre_cate], (err, resp, campos) => {
@@ -561,12 +585,12 @@ router.post('/modificarCategoria/:nombre_cate', (req,res,err) =>{
                         console.log("categoria actualizada")
                         estadoCategoria = 3
                         setEstadoCategoria(estadoCategoria);
-                        console.log("estoy aqui en 3")
+                      
                         res.redirect('/admin')
                     }else{
                         estadoCategoria = 2
                         setEstadoCategoria(estadoCategoria);
-                        console.log("estoy aqui en 2")
+                   
                         res.redirect('/admin')
                     }
               
