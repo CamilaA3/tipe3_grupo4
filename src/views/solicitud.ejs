@@ -18,17 +18,14 @@
     <title>Ingrese Producto</title>
 </head>
 <body>
-
-    
-
     <div class="container-fluid">
         <h1>Formulario para Agregar Productos</h1>
         <div class="row">
             <div class="col col-form">
-                <form action="/FormularioSolicitud"  method="POST" class="form-custom" enctype="multipart/form-data">
+                <form name="FSoli" action="/FormularioSolicitud"  method="POST" class="form-custom" enctype="multipart/form-data">
 
                     <div class="form-custom_nameStore">
-                        <input type="text" name="nombre_usuario" placeholder="Nombre de usuario">
+                        <input type="text" name="nombre_usuario" placeholder="Nombre de usuario" >
                     </div>
                     
                     <div class="form-custom_desc">
@@ -70,13 +67,9 @@
                             <br>
                           </div>
                         </div>
-
-                  
-
-                   
-                    
+ 
                     <div class="form-custom_button">
-                        <button type="submit" class="btn btn-primary">Solicitar ingreso contacto</button>
+                        <button type="button" class="btn btn-primary" onclick="validar_vacios()">Solicitar ingreso contacto</button>
                         <a href="/" class="btn btn-warning">Volver a inicio</a>
                     </div>
                 </form>
@@ -103,5 +96,25 @@
     listen(screenPW);
     screenPW.addListener(listen);
 
+    function validar_vacios(){
+        if(document.FSoli.nombre_usuario.value == ''){
+            alert("Complete nombre de usuario");
+            return 0;
+        }
+        if(document.FSoli.motivo.value == ''){
+            alert("Ingrese motivo");
+            return 0;
+        }
+        if (document.FSoli.tipo_solicitud.value == '' ){
+            alert("Seleccione un tipo de solicitud");
+            return 0;
+        }
+        if(document.FSoli.tipo_entidad.value==''){
+            alert("Seleccione un tipo de entidad");
+            return 0;
+        }
+        alert("El formulario ha sido enviado");
+        document.FSoli.submit();
+    }
 </script>
 </html>
