@@ -5,7 +5,7 @@ body{
     background: #373d43;
 }
 .container-fluid{
-    background: #ee4d5d;
+    background: #5977db;
     width: 800px;
     padding-top: 35px;
     margin-top: 75px;
@@ -44,10 +44,10 @@ body{
 }
 .form-custom_nameStore input{
     margin: 9px 0px;
-    background: #5d4dee;
+    background: #05155f;
     width: 345px;
     border: none;
-    border-bottom: solid #373d435e;
+    border-bottom: solid #0000005e;
     box-shadow: 2px 7px 12px #373d43;
     color: #ffffff;   
 }
@@ -56,13 +56,13 @@ body{
 }
 .form-custom_nameStore input:focus{
     outline: none;
-    background: #d44856;  
+    background: #05155f;  
 }
 .form-custom_desc textarea{
     margin: 9px 0px;
     height: 240px;
     resize: none;
-    background: #000000;
+    background: #05155f;
     border: none;
     border-bottom: solid #373d435e;
     box-shadow: 2px 7px 12px #373d43;  
@@ -74,7 +74,7 @@ body{
     color: #ffffff;
     border: none;
     outline: none;
-    background: #d44856; 
+    background: #05155f; 
 }
 .form-custom_img{
     margin-top: 25px;
@@ -88,14 +88,14 @@ body{
 .form-custom_button button{
     border: none;
     color: #ffffff;
-    background: #373d43;
-    padding: 8px 15px;
-    box-shadow: 5px 10px 15px #a32b3b; 
+    background: #05155f;
+    padding: 13px 25px;
+    box-shadow: 5px 10px 15px #05155f; 
 }
 .form-custom_button button:hover{
-    background: #31353b;
+    background: #29020b;
 }
 .form-custom_button button:focus{
     outline: none;
-    background: #3e4a57;
+    background: #000000;
 }
